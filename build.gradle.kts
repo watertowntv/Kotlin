@@ -27,7 +27,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+
+    compileOnly("io.papermc.paper:paper-api:26.2.build.+")
 }
 
 java {
