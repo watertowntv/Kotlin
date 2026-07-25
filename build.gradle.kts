@@ -2,12 +2,13 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     java
-    kotlin("jvm") version "2.4.0"
+    kotlin("jvm") version "2.4.10"
+    kotlin("plugin.serialization") version "2.4.10"
 
-    id("com.gradleup.shadow") version "9.4.2"
+    id("com.gradleup.shadow") version "9.6.1"
 }
 
-group = properties["group"]!!
+group = providers.gradleProperty("group").get()
 
 repositories {
     mavenCentral()
@@ -18,15 +19,10 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
-    compileOnly("org.junit.jupiter:junit-jupiter:6.1.0")
+    compileOnly("org.junit.jupiter:junit-jupiter:6.1.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
-
-    val exposedVersion = "1.3.0"
-    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
-
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.11.0")
 
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
 }
@@ -46,9 +42,7 @@ tasks {
         compilerOptions.jvmTarget.set(JvmTarget.JVM_25)
     }
     processResources {
-        filesMatching("**/*.yml") {
-            expand(project.properties)
-        }
+        filteringCharset = "UTF-8"
     }
     shadowJar {
         archiveClassifier.set("dist")
